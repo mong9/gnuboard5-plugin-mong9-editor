@@ -65,6 +65,10 @@ function mong9editor_int() {
 
 	global $is_admin,$member,$g5,$board;
 
+	// php 8.0 이상에서 에러방지
+	$g5['lo_location'] = (isset($g5['lo_location'])) ? $g5['lo_location'] : '';
+	$g5['lo_url'] = (isset($g5['lo_url'])) ? $g5['lo_url'] : '';
+
 	$body_script = (isset($g5['body_script']) && $g5['body_script'] != '') ? $g5['body_script'] : '';
 	$g5['body_script'] = mong9_add_body_class($body_script);
 
