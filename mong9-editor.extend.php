@@ -26,11 +26,7 @@ Text Domain: mong9-editor
 
 /*
 ==================================================
-==================================================
-==================================================
 이 파일은 ~/extend/mong9-editor.extend.php 로 이동시켜주세요.
-==================================================
-==================================================
 ==================================================
 */
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
@@ -40,7 +36,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 $mode_m = 768; // mobile phone landscape settings(휴대폰 가로 설정값)
 $mode_e = 576; // mobile phone vertical settings(휴대폰 세로 설정값)
 $google_token = ''; // Google Maps Token (When using Google Maps, an authentication token is required.) // 구글지도 토큰(구글지도 사용시, 인증토큰이 필요합니다.)
-$image_upload_size = 5; // Image upload capacity (5M) // 이미지 업로드 용량(5M)
+$image_upload_size = 2; // Image upload capacity (2M) // 이미지 업로드 용량(2M)
 
 $m9_folder = 'mong9-editor'; // 폴더명
 
@@ -60,6 +56,7 @@ define('MONG9_IMAGE_UPLOAD_SIZE',$image_upload_size);
 define('MONG9_LEVEL_PERMISSION',10); // 몽9에디터 사용가능한 권한
 
 add_event('common_header','mong9editor_int');
+add_event('pre_head','mong9editor_head_int');
 
 function mong9editor_int() {
 
@@ -69,14 +66,14 @@ function mong9editor_int() {
 	$g5['lo_location'] = (isset($g5['lo_location'])) ? $g5['lo_location'] : '';
 	$g5['lo_url'] = (isset($g5['lo_url'])) ? $g5['lo_url'] : '';
 
-	$body_script = (isset($g5['body_script']) && $g5['body_script'] != '') ? $g5['body_script'] : '';
+	$body_script = (isset($g5['body_script'])) ? $g5['body_script'] : '';
 	$g5['body_script'] = mong9_add_body_class($body_script);
 
 	require_once(MONG9_EDITOR__PLUGIN_DIR.'includes/functions/content-filter.php');
 
 	$mong9_editor_use = 0;
 	// 최고운영자(super),회원등급 MONG9_LEVEL_PERMISSION(10)만 몽9 에디터 사용가능
-	if ($is_admin == 'super' || (isset($member['mb_level']) && $member['mb_level'] >= MONG9_LEVEL_PERMISSION) ) {
+	if ($is_admin == 'super' || $member['mb_level'] >= MONG9_LEVEL_PERMISSION) {
 		$mong9_editor_use = 1; // 사용가능
 	}
 
@@ -89,17 +86,34 @@ function mong9editor_int() {
 
 	} else {
 
+		// 관리자 페이지가 아니면(사용자 페이지이면)
+		if (strpos($_SERVER['PHP_SELF'], '/adm/') === false) {
+
+			if (isset($board['bo_image_width']) && $board['bo_image_width'] < 100000) {
+				$board['bo_image_width'] = 100000; // 이미지 줄이기 방지
+			}
+
+		}
+
+	}
+
+} // function
+
+function mong9editor_head_int() {
+
+	// mong9_action
+	if (isset($_REQUEST['mong9_action']) && $_REQUEST['mong9_action'] != '') {
+		#
+	} else {
+
 		// common
 		mong9editor_enqueue_int();
 
 		// 관리자 페이지가 아니면(사용자 페이지이면)
 		if (strpos($_SERVER['PHP_SELF'], '/adm/') === false) {
+
 			// Add custom js,css in user mode
 			mong9editor_site_enqueue_scripts();
-
-			if (isset($board['bo_image_width']) && $board['bo_image_width'] < 100000) {
-				$board['bo_image_width'] = 100000; // 이미지 줄이기 방지
-			}
 
 		}
 
