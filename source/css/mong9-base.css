@@ -928,3 +928,7 @@
 .m9-content .m9-table-out-box::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5)}
 
 .m9-content .m9_editor_box .m9-table-out-box{overflow:hidden !important}
+
+/* 그누보드 설정 */
+#bo_v_con .m9-content ul, #bo_v_con .m9-content ol{list-style-type:none;margin:0;padding:0}
+#bo_v_con .m9-content li{display:block}
