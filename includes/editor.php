@@ -1,6 +1,7 @@
 <?php
 
 if(!defined("MONG9")) exit();
+define('MONG9_PRINT','1');
 
 $_lang = (isset($_REQUEST['lang']) && $_REQUEST['lang'] != '') ? $_REQUEST['lang'] : ''; 
 define('MONG9_SOURCE_URL',MONG9_EDITOR__PLUGIN_URL.'source/');
@@ -18,10 +19,10 @@ function mong9editor_editor() {
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-	<meta charset="<?=MONG9_LANG?>" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="shortcut icon" href="<?php echo MONG9_EDITOR__PLUGIN_URL ?>icons/mong9-editor-favicon.ico">
-	<title><?php echo (isset($_REQUEST['title']) && $_REQUEST['title'] != '') ? $_REQUEST['title'] .' - ' : '' ?>Mong9 Editor</title>
+<meta charset="<?=MONG9_LANG?>" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title><?php echo (isset($_REQUEST['title']) && $_REQUEST['title'] != '') ? $_REQUEST['title'] .' - ' : '' ?>Mong9 Editor</title>
+<link rel="shortcut icon" href="<?php echo MONG9_EDITOR__PLUGIN_URL ?>icons/mong9-editor-favicon.ico">
 
 <?php
 
@@ -98,30 +99,6 @@ function mong9editor_editor() {
 
 <?php
 
-echo html_end(); 
-
 } // mong9editor_editor
-
-
-function mong9_enqueue_script($Dname,$Durl) {
-	add_javascript('<script src="'. $Durl .'"></script>',10);
-}
-function mong9_enqueue_style($Dname,$Durl,$Detc) {
-	add_stylesheet('<link rel="stylesheet" href="'. $Durl .'" '. ( ($Detc) ? $Detc : '' ) .'>',10);
-}
-
-// get language
-function get_mong9_language($language) {
-	return (file_exists(MONG9_SOURCE_DIR.'js/langs/'. $language .'.js')) ? $language : 'en';
-}
-
-// get font family
-function get_mong9_font_family($language) {
-	return (file_exists(MONG9_SOURCE_DIR.'js/font-family/'. $language .'.js')) ? $language : 'en';
-}
-
-function get_example_html($language) {
-	return (file_exists(MONG9_SOURCE_DIR.'example/'. $language .'.html')) ? $language : 'en';
-}
 
 ?>
