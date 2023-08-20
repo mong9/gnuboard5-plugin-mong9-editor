@@ -110,13 +110,8 @@ function mong9editor_head_int() {
 		// common
 		mong9editor_enqueue_int();
 
-		// 관리자 페이지가 아니면(사용자 페이지이면)
-		if (strpos($_SERVER['PHP_SELF'], '/adm/') === false) {
-
-			// Add custom js,css in user mode
-			mong9editor_site_enqueue_scripts();
-
-		}
+		// Add custom js,css in user mode
+		mong9editor_site_enqueue_scripts();
 
 	}
 

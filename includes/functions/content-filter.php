@@ -22,7 +22,11 @@ function Mong9_Html_Convert($html) {
     }
     array_push($domains, $_SERVER['HTTP_HOST'].'/');
     $safeiframe = implode('|',$domains);
-    include_once(MONG9_EDITOR__PLUGIN_DIR . 'etc/htmlpurifier/library/HTMLPurifier.safe-includes.php');
+
+	if(!class_exists('HTMLPurifier')){
+		include_once(MONG9_EDITOR__PLUGIN_DIR . 'etc/htmlpurifier/library/HTMLPurifier.safe-includes.php');
+	}
+
     $config = HTMLPurifier_Config::createDefault();
     // /cache 디렉토리에 CSS, HTML, URI 디렉토리 등을 만든다.
     $config->set('Cache.SerializerPath', MONG9_UPLOAD_DIR);
@@ -106,7 +110,48 @@ function Mong9_Html_Filter($conv_config) {
 } // function
 
 function Mong9_Convert_Check($html) {
-	return '<div class="m9-content">'. $html .'</div>';
+#	echo '<pre>'. $html .'</pre>';
+
+	$fontFamilies = extractFontFamiliesFromHTML($html);
+
+	foreach ($fontFamilies as $url) {
+
+#echo $url .'<BR>';
+
+	}
+
+#var_dump($fontFamilies);
+
+	return $html;
 } // function
+
+
+function extractFontFamiliesFromHTML($html) {
+    $fontFamilies = array();
+
+    // Find all occurrences of m9_font_family(...) within comments
+    preg_match_all('/<!--\/\/m9_font_family\((.*?)\)\/\/-->/s', $html, $matches);
+
+//var_dump($matches);
+
+    if (isset($matches[1])) {
+        foreach ($matches[1] as $match) {
+
+echo $match .'<BR>';
+            // Split the matched content by commas and trim whitespace
+            $fonts = array_map('trim', explode(',', $match));
+#echo '<span style="color:red">'. $fonts .'</span><BR>';
+            // Remove empty font family entries
+            $fonts = array_filter($fonts);
+#echo '<span style="color:blue">'. $fonts .'</span><BR>';
+#var_dump($fonts);
+            // Add to the fontFamilies array
+            $fontFamilies[] = $fonts;
+        }
+    }
+
+    return $fontFamilies;
+}
+
 
 ?>
