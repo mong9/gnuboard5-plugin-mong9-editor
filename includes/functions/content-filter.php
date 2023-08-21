@@ -110,48 +110,7 @@ function Mong9_Html_Filter($conv_config) {
 } // function
 
 function Mong9_Convert_Check($html) {
-#	echo '<pre>'. $html .'</pre>';
-
-	$fontFamilies = extractFontFamiliesFromHTML($html);
-
-	foreach ($fontFamilies as $url) {
-
-#echo $url .'<BR>';
-
-	}
-
-#var_dump($fontFamilies);
-
 	return $html;
 } // function
-
-
-function extractFontFamiliesFromHTML($html) {
-    $fontFamilies = array();
-
-    // Find all occurrences of m9_font_family(...) within comments
-    preg_match_all('/<!--\/\/m9_font_family\((.*?)\)\/\/-->/s', $html, $matches);
-
-//var_dump($matches);
-
-    if (isset($matches[1])) {
-        foreach ($matches[1] as $match) {
-
-echo $match .'<BR>';
-            // Split the matched content by commas and trim whitespace
-            $fonts = array_map('trim', explode(',', $match));
-#echo '<span style="color:red">'. $fonts .'</span><BR>';
-            // Remove empty font family entries
-            $fonts = array_filter($fonts);
-#echo '<span style="color:blue">'. $fonts .'</span><BR>';
-#var_dump($fonts);
-            // Add to the fontFamilies array
-            $fontFamilies[] = $fonts;
-        }
-    }
-
-    return $fontFamilies;
-}
-
 
 ?>
