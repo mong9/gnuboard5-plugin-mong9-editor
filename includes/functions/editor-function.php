@@ -1,5 +1,7 @@
 <?php
 
+if(!defined("MONG9")) exit();
+
 // 몽9 action 처리
 function mong9editor_parse_request($mong9_action = '') {
 
