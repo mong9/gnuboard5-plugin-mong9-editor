@@ -40,7 +40,7 @@ function mong9editor_enqueue_int() {
 	$_script .= "M9_SET['google_token'] = '". MONG9_GOOGLE_TOKEN ."'; // 구글지도 토큰(구글지도 사용시, 인증토큰이 필요합니다.)". $rn;
 
 	$mong9_window_url = MONG9_NOW_SITE_DOMAIN .'index.php?mong9_action=editor';
-	if (isset($board['bo_table']) && $_REQUEST['bo_table'] != '') {
+	if (isset($board['bo_table']) && (isset($_REQUEST['bo_table']) && $_REQUEST['bo_table'] != '')) {
 		$mong9_window_url .= '&bo_table='. $_REQUEST['bo_table'];
 	}
 
